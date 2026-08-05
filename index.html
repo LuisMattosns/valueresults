@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Painel de performance mensal de Luiz e Thierry"
+    >
+
+    <title>Operação 200K | Luis & Thierry</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- FUNDO GALÁCTICO -->
+
+    <div class="galaxy-background" aria-hidden="true">
+        <div class="aurora aurora-one"></div>
+        <div class="aurora aurora-two"></div>
+        <div class="aurora aurora-three"></div>
+        <div class="stars stars-one"></div>
+        <div class="stars stars-two"></div>
+        <div class="noise"></div>
+    </div>
+
+    <!-- CONFETE -->
+
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <!-- APP -->
+
+    <div class="app-shell">
+
+        <!-- MENU LATERAL -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-symbol">
+                    <span></span>
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div class="brand-text">
+                    <strong>VALUE</strong>
+                    <small>Performance Duo</small>
+                </div>
+
+            </div>
+
+            <div class="team-card">
+
+                <div class="team-avatars">
+
+                    <div class="avatar avatar-luiz">
+                        L
+                    </div>
+
+                    <div class="avatar avatar-thierry">
+                        T
+                    </div>
+
+                </div>
+
+                <div>
+                    <span>Operação particular</span>
+                    <strong>Luis & Thierry</strong>
+                </div>
+
+                <div class="online-dot"></div>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="#visao-geral" class="nav-link active">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Visão geral</span>
+                </a>
+
+                <a href="#indicadores" class="nav-link">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Indicadores</span>
+                </a>
+
+                <a href="#agenda" class="nav-link">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Agenda</span>
+                </a>
+
+                <a href="#reunioes" class="nav-link">
+                    <i class="fa-solid fa-headset"></i>
+                    <span>Reuniões</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-spacer"></div>
+
+            <div class="month-panel">
+
+                <span class="month-panel-label">
+                    Ciclo atual
+                </span>
+
+                <strong id="sidebarMonth">
+                    Agosto de 2026
+                </strong>
+
+                <span id="sidebarMonthDays">
+                    0 dias restantes
+                </span>
+
+            </div>
+
+            <div class="sidebar-tools">
+
+                <button class="sidebar-tool" id="exportBtn">
+                    <i class="fa-solid fa-file-export"></i>
+                    <span>Exportar dados</span>
+                </button>
+
+                <button class="sidebar-tool" id="importBtn">
+                    <i class="fa-solid fa-file-import"></i>
+                    <span>Importar dados</span>
+                </button>
+
+                <input
+                    type="file"
+                    id="importFile"
+                    accept=".json,application/json"
+                    hidden
+                >
+
+                <button class="sidebar-tool danger" id="resetMonthBtn">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reiniciar mês</span>
+                </button>
+
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="footer-status"></div>
+                <span>Dados salvos neste navegador</span>
+            </div>
+
+        </aside>
+
+        <!-- CONTEÚDO -->
+
+        <main class="main-content">
+
+            <!-- TOPO -->
+
+            <header class="topbar">
+
+                <div class="topbar-left">
+
+                    <button
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Abrir menu"
+                    >
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div>
+                        <p class="topbar-date" id="currentDate">
+                            Terça-feira, 4 de agosto
+                        </p>
+
+                        <h2>
+                            Central de performance
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="live-clock">
+                        <span class="clock-dot"></span>
+
+                        <div>
+                            <small>Agora</small>
+                            <strong id="liveClock">00:00:00</strong>
+                        </div>
+                    </div>
+
+                    <button
+                        class="button button-secondary"
+                        data-open-modal="callModal"
+                    >
+                        <i class="fa-solid fa-phone-volume"></i>
+                        Registrar ligações
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        data-open-modal="meetingModal"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Nova reunião
+                    </button>
+
+                </div>
+
+            </header>
+
+            <!-- HERO -->
+
+            <section class="hero-section" id="visao-geral">
+
+                <div class="hero-copy">
+
+                    <div class="eyebrow">
+                        <span class="eyebrow-pulse"></span>
+                        PAINEL PARTICULAR • SDR + CLOSER
+                    </div>
+
+                    <h1>
+                        Operação
+                        <span>200K</span>
+                    </h1>
+
+                    <p>
+                        Luis gera as oportunidades. Thierry transforma
+                        oportunidades em receita. Cada registro abaixo mostra
+                        o quanto a operação está avançando neste mês.
+                    </p>
+
+                    <div class="hero-roles">
+
+                        <div class="role-chip">
+                            <span class="role-avatar">L</span>
+
+                            <div>
+                                <small>SDR</small>
+                                <strong>Luis</strong>
+                            </div>
+                        </div>
+
+                        <div class="role-connection">
+                            <span></span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span></span>
+                        </div>
+
+                        <div class="role-chip">
+                            <span class="role-avatar thierry">T</span>
+
+                            <div>
+                                <small>Closer</small>
+                                <strong>Thierry</strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="goal-card">
+
+                    <div class="goal-card-header">
+
+                        <div>
+                            <span>Meta mensal</span>
+                            <strong id="goalValue">R$ 200.000</strong>
+                        </div>
+
+                        <button
+                            class="icon-button"
+                            data-open-modal="goalModal"
+                            aria-label="Editar meta"
+                            title="Editar meta"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="goal-main">
+
+                        <div
+                            class="progress-ring"
+                            id="progressRing"
+                            style="--progress: 0deg"
+                        >
+                            <div class="progress-ring-inner">
+                                <strong id="goalPercentage">0%</strong>
+                                <span>da meta</span>
+                            </div>
+                        </div>
+
+                        <div class="goal-values">
+
+                            <span>Receita fechada</span>
+
+                            <strong id="revenueValue">
+                                R$ 0
+                            </strong>
+
+                            <p>
+                                Faltam
+                                <b id="remainingValue">
+                                    R$ 200.000
+                                </b>
+                            </p>
+
+                            <div class="pace-badge neutral" id="paceBadge">
+                                <i class="fa-solid fa-minus"></i>
+                                Aguardando resultados
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="linear-progress">
+
+                        <div class="linear-progress-track">
+                            <span id="goalProgressBar"></span>
+                        </div>
+
+                        <div class="linear-progress-footer">
+                            <span id="monthProgressText">
+                                0% do mês concluído
+                            </span>
+
+                            <span id="projectionText">
+                                Projeção: R$ 0
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="goal-action"
+                        data-open-modal="dealModal"
+                    >
+                        <i class="fa-solid fa-trophy"></i>
+
+                        <span>
+                            <small>Fechou um contrato?</small>
+                            Registrar novo fechamento
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- INDICADORES -->
+
+            <section class="section-block" id="indicadores">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-kicker">
+                            PULSO DA OPERAÇÃO
+                        </span>
+
+                        <h2>Indicadores do mês</h2>
+                    </div>
+
+                    <span class="section-note">
+                        Atualizados automaticamente
+                    </span>
+
+                </div>
+
+                <div class="metrics-grid">
+
+                    <article class="metric-card purple">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Ligações realizadas</span>
+                            <strong id="metricCalls">0</strong>
+
+                            <p>
+                                <b id="metricAnswered">0</b>
+                                atendidas
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            SDR
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card blue">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-phone-volume"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Taxa de atendimento</span>
+                            <strong id="metricAnswerRate">0%</strong>
+
+                            <p>
+                                Contatos que atenderam
+                            </p>
+                        </div>
+
+                        <div class="metric-mini-bar">
+                            <span id="answerRateBar"></span>
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card violet">
+
+                        <div class="metric-icon">
+                            <i class="fa-regular fa-calendar-plus"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Reuniões marcadas</span>
+                            <strong id="metricMeetings">0</strong>
+
+                            <p>
+                                <b id="metricTodayMeetings">0</b>
+                                agendadas hoje
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            AGENDA
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card green">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Comparecimento</span>
+                            <strong id="metricShowRate">0%</strong>
+
+                            <p>
+                                <b id="metricShowups">0</b>
+                                compareceram
+                            </p>
+                        </div>
+
+                        <div class="metric-mini-bar">
+                            <span id="showRateBar"></span>
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card red">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-user-clock"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>No-show</span>
+                            <strong id="metricNoShows">0</strong>
+
+                            <p>
+                                <b id="metricNoShowRate">0%</b>
+                                das reuniões
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            ATENÇÃO
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card orange">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-user-xmark"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Sem perfil</span>
+                            <strong id="metricNotProfile">0</strong>
+
+                            <p>
+                                Leads fora do perfil
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            FILTRO
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card cyan">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Em processo</span>
+                            <strong id="metricProcess">0</strong>
+
+                            <p>
+                                Negociações abertas
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            PIPELINE
+                        </div>
+
+                    </article>
+
+                    <article class="metric-card gold">
+
+                        <div class="metric-icon">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+
+                        <div class="metric-content">
+                            <span>Contratos fechados</span>
+                            <strong id="metricDeals">0</strong>
+
+                            <p>
+                                Ticket médio:
+                                <b id="averageTicket">R$ 0</b>
+                            </p>
+                        </div>
+
+                        <div class="metric-corner">
+                            RECEITA
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+            <!-- GRÁFICOS -->
+
+            <section class="charts-layout">
+
+                <article class="panel revenue-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                EVOLUÇÃO FINANCEIRA
+                            </span>
+
+                            <h3>Receita acumulada no mês</h3>
+                        </div>
+
+                        <div class="panel-highlight">
+                            <small>Projeção mensal</small>
+                            <strong id="chartProjection">R$ 0</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="chart-container large-chart">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+
+                </article>
+
+                <article class="panel status-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                QUALIDADE DAS CALLS
+                            </span>
+
+                            <h3>Status das reuniões</h3>
+                        </div>
+
+                    </div>
+
+                    <div class="status-chart-wrapper">
+
+                        <div class="chart-container donut-chart">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+
+                        <div class="status-legend">
+
+                            <div>
+                                <span class="legend-dot scheduled"></span>
+
+                                <p>
+                                    <strong id="legendScheduled">0</strong>
+                                    Agendadas
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="legend-dot process"></span>
+
+                                <p>
+                                    <strong id="legendProcess">0</strong>
+                                    Em processo
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="legend-dot closed"></span>
+
+                                <p>
+                                    <strong id="legendClosed">0</strong>
+                                    Fechadas
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="legend-dot noshow"></span>
+
+                                <p>
+                                    <strong id="legendNoShow">0</strong>
+                                    No-show
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="legend-dot not-profile"></span>
+
+                                <p>
+                                    <strong id="legendNotProfile">0</strong>
+                                    Sem perfil
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="legend-dot lost"></span>
+
+                                <p>
+                                    <strong id="legendLost">0</strong>
+                                    Perdidas
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="panel funnel-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                CONVERSÃO DA OPERAÇÃO
+                            </span>
+
+                            <h3>Funil Luiz → Thierry</h3>
+                        </div>
+
+                        <span class="conversion-pill" id="conversionPill">
+                            0% de conversão
+                        </span>
+
+                    </div>
+
+                    <div class="chart-container funnel-chart">
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+
+                </article>
+
+                <article class="panel insight-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                LEITURA DO CENÁRIO
+                            </span>
+
+                            <h3>O que precisa de atenção</h3>
+                        </div>
+
+                        <div class="insight-orb">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="insights-list" id="insightsList">
+
+                        <div class="empty-insight">
+                            Registre suas atividades para gerar análises.
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- AGENDA E FECHAMENTOS -->
+
+            <section class="operations-layout" id="agenda">
+
+                <article class="panel agenda-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                PRÓXIMOS COMPROMISSOS
+                            </span>
+
+                            <h3>Agenda de reuniões</h3>
+                        </div>
+
+                        <button
+                            class="small-button"
+                            data-open-modal="meetingModal"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Agendar
+                        </button>
+
+                    </div>
+
+                    <div class="agenda-list" id="agendaList"></div>
+
+                </article>
+
+                <article class="panel deals-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                ÚLTIMAS CONQUISTAS
+                            </span>
+
+                            <h3>Fechamentos do mês</h3>
+                        </div>
+
+                        <button
+                            class="small-button success"
+                            data-open-modal="dealModal"
+                        >
+                            <i class="fa-solid fa-trophy"></i>
+                            Novo fechamento
+                        </button>
+
+                    </div>
+
+                    <div class="deals-list" id="dealsList"></div>
+
+                </article>
+
+            </section>
+
+            <!-- TABELA DE REUNIÕES -->
+
+            <section class="panel meetings-panel" id="reunioes">
+
+                <div class="panel-header meetings-header">
+
+                    <div>
+                        <span class="panel-kicker">
+                            CONTROLE DA QUALIFICAÇÃO
+                        </span>
+
+                        <h3>Todas as reuniões do mês</h3>
+                    </div>
+
+                    <div class="table-controls">
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="meetingSearch"
+                                placeholder="Buscar cliente ou nicho"
+                            >
+                        </div>
+
+                        <select id="meetingFilter">
+                            <option value="all">Todos os status</option>
+                            <option value="scheduled">Agendada</option>
+                            <option value="attended">Compareceu</option>
+                            <option value="process">Em processo</option>
+                            <option value="closed">Fechada</option>
+                            <option value="noshow">No-show</option>
+                            <option value="not_profile">Sem perfil</option>
+                            <option value="lost">Perdida</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Reunião</th>
+                                <th>Nicho</th>
+                                <th>Ticket estimado</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="meetingsTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <footer class="page-footer">
+                <p>
+                    VALUE Performance Duo • Luis & Thierry
+                </p>
+
+                <span>
+                    Operação 200K
+                </span>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- MODAL LIGAÇÕES -->
+
+    <div class="modal" id="callModal" aria-hidden="true">
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-dialog">
+
+            <button class="modal-close" data-close-modal>
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-icon purple">
+                <i class="fa-solid fa-phone-volume"></i>
+            </div>
+
+            <div class="modal-heading">
+                <span>ATIVIDADE DO SDR</span>
+                <h3>Registrar bloco de ligações</h3>
+
+                <p>
+                    Informe quantas ligações Luis realizou e quantas foram
+                    atendidas.
+                </p>
+            </div>
+
+            <form id="callForm">
+
+                <div class="form-grid">
+
+                    <label class="form-field full">
+                        <span>Data</span>
+
+                        <input
+                            type="date"
+                            id="callDate"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Ligações realizadas</span>
+
+                        <input
+                            type="number"
+                            id="callsMade"
+                            min="1"
+                            step="1"
+                            placeholder="Ex.: 45"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Ligações atendidas</span>
+
+                        <input
+                            type="number"
+                            id="callsAnswered"
+                            min="0"
+                            step="1"
+                            placeholder="Ex.: 18"
+                            required
+                        >
+                    </label>
+
+                </div>
+
+                <button class="modal-submit" type="submit">
+                    <i class="fa-solid fa-check"></i>
+                    Salvar ligações
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL REUNIÃO -->
+
+    <div class="modal" id="meetingModal" aria-hidden="true">
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-dialog large">
+
+            <button class="modal-close" data-close-modal>
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-icon blue">
+                <i class="fa-regular fa-calendar-plus"></i>
+            </div>
+
+            <div class="modal-heading">
+                <span>NOVA OPORTUNIDADE</span>
+                <h3>Agendar reunião para Thierry</h3>
+
+                <p>
+                    Registre a call marcada por Luis e acompanhe o resultado
+                    até o fechamento.
+                </p>
+            </div>
+
+            <form id="meetingForm">
+
+                <div class="form-grid">
+
+                    <label class="form-field full">
+                        <span>Nome do cliente</span>
+
+                        <input
+                            type="text"
+                            id="meetingClient"
+                            maxlength="80"
+                            placeholder="Ex.: Loja da Amanda"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Data</span>
+
+                        <input
+                            type="date"
+                            id="meetingDate"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Horário</span>
+
+                        <input
+                            type="time"
+                            id="meetingTime"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Nicho</span>
+
+                        <input
+                            type="text"
+                            id="meetingNiche"
+                            maxlength="60"
+                            placeholder="Ex.: Moda, autopeças..."
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Ticket estimado</span>
+
+                        <input
+                            type="number"
+                            id="meetingTicket"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ex.: 8500"
+                        >
+                    </label>
+
+                    <label class="form-field full">
+                        <span>Observações</span>
+
+                        <textarea
+                            id="meetingNotes"
+                            maxlength="500"
+                            placeholder="Principais dores, faturamento, estoque, urgência..."
+                        ></textarea>
+                    </label>
+
+                </div>
+
+                <button class="modal-submit" type="submit">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Salvar reunião
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL FECHAMENTO -->
+
+    <div class="modal" id="dealModal" aria-hidden="true">
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-dialog large celebration-dialog">
+
+            <button class="modal-close" data-close-modal>
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-icon gold">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+
+            <div class="modal-heading">
+                <span>RECEITA CONQUISTADA</span>
+                <h3>Registrar novo fechamento</h3>
+
+                <p>
+                    Coloque o valor real vendido. Nada de adivinhar ticket,
+                    porque até gráfico bonito merece informação verdadeira.
+                </p>
+            </div>
+
+            <form id="dealForm">
+
+                <div class="form-grid">
+
+                    <label class="form-field full">
+                        <span>Cliente</span>
+
+                        <input
+                            type="text"
+                            id="dealClient"
+                            maxlength="80"
+                            placeholder="Nome do cliente"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Valor fechado</span>
+
+                        <input
+                            type="number"
+                            id="dealAmount"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="Ex.: 8500"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field">
+                        <span>Data do fechamento</span>
+
+                        <input
+                            type="date"
+                            id="dealDate"
+                            required
+                        >
+                    </label>
+
+                    <label class="form-field full">
+                        <span>Reunião relacionada</span>
+
+                        <select id="dealMeeting">
+                            <option value="">
+                                Fechamento sem reunião cadastrada
+                            </option>
+                        </select>
+                    </label>
+
+                    <label class="form-field full">
+                        <span>Observações</span>
+
+                        <textarea
+                            id="dealNotes"
+                            maxlength="500"
+                            placeholder="Plano vendido, forma de pagamento ou observações importantes"
+                        ></textarea>
+                    </label>
+
+                </div>
+
+                <button class="modal-submit gold-submit" type="submit">
+                    <i class="fa-solid fa-bolt"></i>
+                    Confirmar fechamento
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL META -->
+
+    <div class="modal" id="goalModal" aria-hidden="true">
+
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-dialog compact">
+
+            <button class="modal-close" data-close-modal>
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-icon purple">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+
+            <div class="modal-heading">
+                <span>OBJETIVO MENSAL</span>
+                <h3>Editar meta</h3>
+
+                <p>
+                    A meta principal já está definida em R$ 200 mil, mas pode
+                    ser ajustada quando necessário.
+                </p>
+            </div>
+
+            <form id="goalForm">
+
+                <label class="form-field full">
+                    <span>Nova meta</span>
+
+                    <input
+                        type="number"
+                        id="goalAmount"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+                </label>
+
+                <button class="modal-submit" type="submit">
+                    <i class="fa-solid fa-check"></i>
+                    Atualizar meta
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- TOAST -->
+
+    <div class="toast" id="toast">
+
+        <div class="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div>
+            <strong id="toastTitle">Concluído</strong>
+            <p id="toastMessage">Informação salva.</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
